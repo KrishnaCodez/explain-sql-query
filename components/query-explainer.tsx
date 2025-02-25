@@ -26,18 +26,6 @@ export default function QueryExplainer() {
     setIsKeySet(!!storedKey);
   }, []);
 
-  const handleRemove = () => {
-    apiKeyManager.removeApiKey();
-    setIsKeySet(false);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    apiKeyManager.setApiKey(apiKey);
-    setIsKeySet(true);
-    setApiKey("");
-  };
-
   const handleExplain = useCallback(async () => {
     if (!query.trim()) return;
 
@@ -73,7 +61,7 @@ export default function QueryExplainer() {
             {item.part}
           </span>
         </TooltipTrigger>
-        <TooltipContent className="max-w-[300px] bg-gray-900 text-gray-100 border-gray-800">
+        <TooltipContent className="max-w-[300px]  ">
           <p>{item.explanation}</p>
         </TooltipContent>
       </Tooltip>
@@ -88,57 +76,27 @@ export default function QueryExplainer() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Enter your SQL query here"
-            className="flex-grow font-mono bg-gray-900 border-gray-800 text-gray-100"
+            className="flex-grow font-mono   "
           />
           {query && !explanations.length && (
             <Button
               onClick={handleExplain}
               disabled={isExplaining}
-              className="bg-gray-800 hover:bg-gray-700 text-gray-100"
+              className="  "
             >
               {isExplaining ? "Explaining..." : "Explain"}
             </Button>
           )}
         </div>
 
-        <div className="mb-4 p-4 border rounded">
-          {!isKeySet ? (
-            <form onSubmit={handleSubmit} className="space-y-2">
-              <Input
-                type="text"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder="Enter Google API Key"
-                className="w-full p-2 border rounded"
-                required
-              />
-              <button
-                type="submit"
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              >
-                Save API Key
-              </button>
-            </form>
-          ) : (
-            <div className="flex justify-between items-center">
-              <span className="text-green-600">API Key is set ✓</span>
-              <button
-                onClick={handleRemove}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                Remove API Key
-              </button>
-            </div>
-          )}
-        </div>
         {explanations.length > 0 && (
           <div className="space-y-2">
-            <h2 className="text-sm text-gray-400">
+            <h2 className="text-sm ">
               Explanation is ready! Hover over different parts to see
               explanation
             </h2>
             <TooltipProvider>
-              <div className="p-4 bg-gray-900 border border-gray-800 rounded font-mono text-gray-100 whitespace-pre-wrap">
+              <div className="p-4  border  rounded font-mono  whitespace-pre-wrap">
                 {renderQueryWithTooltips()}
               </div>
             </TooltipProvider>

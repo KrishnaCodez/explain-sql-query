@@ -3,7 +3,14 @@ import { apiKeyManager } from "@/utils/get-key";
 import { useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 const Navbar = () => {
   const [apiKey, setApiKey] = useState("");
@@ -24,24 +31,24 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="border-b ">
+      <div className="max-w-7xl mx-auto  px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <h1 className="text-2xl font-bold">SQL Query Explainer</h1>
           <div className="flex items-center gap-4">
             {!isKeySet ? (
-              <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
+              <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger asChild>
                   <Button variant="outline">Add API Key</Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80">
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="space-y-2">
-                      <h4 className="font-medium leading-none">API Key</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Enter your Google API key to use the SQL explainer
-                      </p>
-                    </div>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Add API Key</DialogTitle>
+                    <DialogDescription>
+                      Enter your Google API key to use the SQL explainer
+                    </DialogDescription>
+                  </DialogHeader>
+                  <form onSubmit={handleSubmit} className="space-y-4 pt-4">
                     <Input
                       type="password"
                       value={apiKey}
@@ -50,12 +57,19 @@ const Navbar = () => {
                       className="w-full"
                       required
                     />
-                    <Button type="submit" className="w-full">
-                      Save API Key
-                    </Button>
+                    <div className="flex justify-end gap-3">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setOpen(false)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button type="submit">Save API Key</Button>
+                    </div>
                   </form>
-                </PopoverContent>
-              </Popover>
+                </DialogContent>
+              </Dialog>
             ) : (
               <div className="flex items-center gap-3">
                 <span className="text-sm text-green-600 font-medium">

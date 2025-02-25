@@ -1,6 +1,6 @@
 "use client";
 import { apiKeyManager } from "@/utils/get-key";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import {
@@ -17,6 +17,13 @@ const Navbar = () => {
   const [apiKey, setApiKey] = useState("");
   const [isKeySet, setIsKeySet] = useState(false);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const initialKey = apiKeyManager.getApiKey();
+    if (initialKey) {
+      setIsKeySet(true);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

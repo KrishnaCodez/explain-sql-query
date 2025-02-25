@@ -57,7 +57,7 @@ export default function QueryExplainer() {
     return explanations.map((item, index) => (
       <Tooltip key={index}>
         <TooltipTrigger asChild>
-          <span className="cursor-help hover:bg-gray-700 px-1 rounded transition-colors">
+          <span className="cursor-help  px-1 rounded transition-colors">
             {item.part}
           </span>
         </TooltipTrigger>
@@ -69,7 +69,7 @@ export default function QueryExplainer() {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-4">
+    <div className="w-full max-w-3xl mx-auto p-4 ">
       <div className="space-y-4">
         <div className="flex gap-2">
           <Input

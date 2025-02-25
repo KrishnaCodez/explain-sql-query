@@ -79,7 +79,7 @@ export async function explainQuery(query: string) {
         system: `You are an expert SQL analyst. Explain SQL query parts concisely and accurately. Focus on the purpose and impact of each logical part of the query.`,
         prompt: `Explain this part of the SQL query in context: "${part}"
                 Full query for context: "${query}"
-                Explain what this specific part does in 1-2 sentences.`,
+                Explain what this specific part does in 1 sentence (please very short).`,
         schema: z.object({
           explanation: z
             .string()

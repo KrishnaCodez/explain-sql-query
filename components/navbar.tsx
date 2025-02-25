@@ -36,7 +36,7 @@ const Navbar = () => {
       <nav className="border rounded-md absolute w-[97%] mt-5 mx-auto max-md:w-[92%] bg-card/80 backdrop-blur-md z-10">
         <div className=" mx-auto  px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <h1 className="text-2xl text-muted-background font-sans font-medium max-md:text-xl">
+            <h1 className="text-2xl text-muted-background font-mono font-medium max-md:text-xl">
               ExplainSQL
             </h1>
             <div className="flex items-center gap-4">
@@ -79,9 +79,6 @@ const Navbar = () => {
                 </Dialog>
               ) : (
                 <div className="flex items-center gap-3">
-                  <span className="text-sm text-green-600 font-medium">
-                    API Key is set ✓
-                  </span>
                   <Button
                     onClick={handleRemove}
                     variant="destructive"

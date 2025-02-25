@@ -56,12 +56,12 @@ export default function QueryExplainer() {
 
     return explanations.map((item, index) => (
       <Tooltip key={index}>
-        <TooltipTrigger asChild>
-          <span className="cursor-help  px-1 rounded transition-colors">
+        <TooltipTrigger asChild className="">
+          <span className="cursor-help hover:bg-gray-700  px-1 rounded transition-colors ">
             {item.part}
           </span>
         </TooltipTrigger>
-        <TooltipContent className="max-w-[300px]  ">
+        <TooltipContent className="max-w-[300px] bg-card  ">
           <p>{item.explanation}</p>
         </TooltipContent>
       </Tooltip>
@@ -78,16 +78,14 @@ export default function QueryExplainer() {
             placeholder="Enter your SQL query here"
             className="flex-grow font-mono   "
           />
-          {query && !explanations.length && (
-            <Button
-              onClick={handleExplain}
-              disabled={isExplaining}
-              className="  "
-            >
-              {isExplaining ? "Explaining..." : "Explain"}
-            </Button>
-          )}
         </div>
+        <Button
+          onClick={handleExplain}
+          disabled={isExplaining}
+          className="w-full"
+        >
+          {isExplaining ? "Explaining..." : "Generate Explanation"}
+        </Button>
 
         {explanations.length > 0 && (
           <div className="space-y-2">
@@ -96,7 +94,7 @@ export default function QueryExplainer() {
               explanation
             </h2>
             <TooltipProvider>
-              <div className="p-4  border  rounded font-mono  whitespace-pre-wrap">
+              <div className="p-4  border  border-input rounded font-mono  whitespace-pre-wrap">
                 {renderQueryWithTooltips()}
               </div>
             </TooltipProvider>

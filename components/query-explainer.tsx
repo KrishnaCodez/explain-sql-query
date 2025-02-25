@@ -9,7 +9,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { explainQuery } from "@/app/actions";
+import { explainQuery } from "@/utils/actions";
+import { apiKeyManager } from "@/utils/get-key";
 
 export default function QueryExplainer() {
   const [query, setQuery] = useState("");
@@ -17,13 +18,39 @@ export default function QueryExplainer() {
     { part: string; explanation: string }[]
   >([]);
   const [isExplaining, setIsExplaining] = useState(false);
+  const [apiKey, setApiKey] = useState("");
+  const [isKeySet, setIsKeySet] = useState(false);
+
+  useEffect(() => {
+    const storedKey = apiKeyManager.getApiKey();
+    setIsKeySet(!!storedKey);
+  }, []);
+
+  const handleRemove = () => {
+    apiKeyManager.removeApiKey();
+    setIsKeySet(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    apiKeyManager.setApiKey(apiKey);
+    setIsKeySet(true);
+    setApiKey("");
+  };
 
   const handleExplain = useCallback(async () => {
     if (!query.trim()) return;
 
     setIsExplaining(true);
     try {
-      const result = await explainQuery(query);
+      const storedKey = apiKeyManager.getApiKey();
+      if (!storedKey) {
+        throw new Error(
+          "API key not found. Please add your Google API key to continue."
+        );
+      }
+
+      const result = await explainQuery(query, storedKey);
       setExplanations(result);
     } catch (err) {
       console.error(err);
@@ -71,6 +98,37 @@ export default function QueryExplainer() {
             >
               {isExplaining ? "Explaining..." : "Explain"}
             </Button>
+          )}
+        </div>
+
+        <div className="mb-4 p-4 border rounded">
+          {!isKeySet ? (
+            <form onSubmit={handleSubmit} className="space-y-2">
+              <Input
+                type="text"
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+                placeholder="Enter Google API Key"
+                className="w-full p-2 border rounded"
+                required
+              />
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              >
+                Save API Key
+              </button>
+            </form>
+          ) : (
+            <div className="flex justify-between items-center">
+              <span className="text-green-600">API Key is set ✓</span>
+              <button
+                onClick={handleRemove}
+                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              >
+                Remove API Key
+              </button>
+            </div>
           )}
         </div>
         {explanations.length > 0 && (

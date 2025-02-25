@@ -1,6 +1,6 @@
 export const API_KEY_STORAGE_KEY = "GOOGLE_API_KEY";
 
-const apiKeyManager = {
+export const apiKeyManager = {
   getApiKey: () => {
     if (typeof window === "undefined") return null;
     return localStorage.getItem(API_KEY_STORAGE_KEY);
